@@ -1,0 +1,12 @@
+::-webkit-scrollbar {
+  @apply bg-zinc-800 w-2;
+}
+/* ::-webkit-scrollbar-button { */
+/* @apply bg-zinc-700 text-zinc-300; */
+/* } */
+::-webkit-scrollbar-track-piece {
+  @apply bg-zinc-900;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-700;
+}

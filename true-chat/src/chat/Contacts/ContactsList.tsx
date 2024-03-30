@@ -9,8 +9,11 @@ interface ContactsListProps {
   setActiveChat: React.Dispatch<React.SetStateAction<string | boolean>>
 }
 function ContactsList({ joinRoom, setActiveChat }: ContactsListProps) {
-  const [contacts, setContacts] = useState(['Tayyab Riaz', 'abc'])
   const theContacts = useAppSelector(state => state.contacts)
+  const [contacts, setContacts] = useState<({
+    contactName: string;
+    ContactMessages: ({ message: string; room: string; Received: boolean; time: string; })[]
+  })[]>(theContacts)
   useEffect(() => {
     setContacts(theContacts)
   }, [])
@@ -34,10 +37,10 @@ function ContactsList({ joinRoom, setActiveChat }: ContactsListProps) {
             {contacts.map((contact, index) => {
               return (
                 <div key={index} onClick={() => {
-                  dispatch(setCurrentContact(contact))
-                  setActiveChat(contact)
+                  dispatch(setCurrentContact(contact.contactName))
+                  setActiveChat(contact.contactName)
                 }}>
-                  <ContactName name={contact} />
+                  <ContactName name={contact.contactName} />
                 </div>
               )
             })}

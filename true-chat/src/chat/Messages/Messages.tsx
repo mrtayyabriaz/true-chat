@@ -15,9 +15,9 @@ function Messages({ messages }: messagesProps) {
           return (
             <div key={index}>
               {message.Received ?
-                <RightMessage time={message.time}>{message.message}</RightMessage>
-                :
                 <LeftMessage time={message.time}>{message.message}</LeftMessage>
+                :
+                <RightMessage time={message.time}>{message.message}</RightMessage>
               }
             </div>
           )

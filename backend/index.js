@@ -19,14 +19,14 @@ app.get('/', (req, res) => {
 
 io.on("connection", (socket) => {
   console.log('connected to server:' + socket.id);
-  socket.emit("Message-Reveived", 'Message from server')
-  // socket.join('room');
+  // socket.emit("Message-Reveived", 'Message from server')
+  socket.join('Tayyab Riaz');
 
-  socket.on("Send-Message", (newMessage, room) => {
+  socket.on("Message-Sent", (newMessage, room) => {
     if (room === '') {
-      socket.broadcast.emit("Message-Reveive", `brodcast: ${newMessage}`)
+      socket.broadcast.emit("Message-Reveived", `brodcast: ${newMessage}`)
     } else {
-      io.to(room).emit("Message-Reveive", `rec: ${newMessage} | room: ${room}`)
+      io.to(room).emit("Message-Reveived", `rec: ${newMessage} | room: ${room}`)
     }
   })
 

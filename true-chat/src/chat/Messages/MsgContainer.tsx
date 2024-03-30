@@ -1,97 +1,30 @@
-import { useEffect, useState } from "react"
+import React from "react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 import { Toaster } from "@/components/ui/sonner"
-import { toast } from "sonner"
 
 import Day from './Day'
 import { useAppSelector } from "@/Hooks/Hooks"
-import { io } from "socket.io-client"
+import { ArrowLeft } from "lucide-react"
 
-function MsgContainer() {
+interface MsgContainerProps {
+  messages: object[]
+  handleSend: React.FormEventHandler<HTMLFormElement>
+  setMessage: React.Dispatch<React.SetStateAction<string>>
+  message: string
+  setActiveChat: React.Dispatch<React.SetStateAction<string | boolean>>
+}
+function MsgContainer({ messages, handleSend, setMessage, message, setActiveChat }: MsgContainerProps) {
   const currentContact = useAppSelector((state) => state.currentContact)
-  const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState([{
-    message: 'RightMessage',
-    Received: true,
-    time: '5:52 PM',
-  }, {
-    message: 'LeftMessage',
-    Received: false,
-    time: '5:52 PM',
-  }])
-  interface messageInterface {
-    message: any;
-    Received: boolean;
-    time: string;
-  }
-  const displayMessage = (message: messageInterface) => {
-    console.log(message);
-    setMessages((preMessages) => [...preMessages, message])
-  }
 
 
-  /*==================================================================================
-  =================================== web RTC  ( START ) =============================
-  ==================================================================================*/
-  const socket = io("http://localhost:3000");
-
-  const handleSend = (e: any) => {
-    e.preventDefault()
-    socket.emit('Message-Sent', message, currentContact)
-  }
-
-  useEffect(() => {
-    socket.on("connect", () => {
-
-      console.log('id:: ', socket.id); // x8WIv7-mJelg7on_ALbx
-      toast("Network Connected", {
-        description: "Online",
-        action: {
-          label: "Dismiss",
-          onClick: () => console.log("Undo"),
-        },
-      })
-
-    });
-  }, []);
-
-
-  useEffect(() => {
-    socket.on("Message-Reveived", (data) => {
-      const theMessage = {
-        message: data,
-        Received: true,
-        time: '5:52 PM'
-      }
-
-      displayMessage(theMessage)
-      console.log(messages);
-      console.log(data);
-    })
-  }, [])
-
-  useEffect(() => {
-    socket.on("disconnect", () => {
-      console.log("disconnected");
-      toast("Network DisConnected", {
-        action: {
-          label: "Try Again",
-          onClick: () => console.log("Undo"),
-        },
-      })
-    })
-  }, [])
-  /*==================================================================================
-=================================== web RTC   ( END )  =============================
-==================================================================================*/
 
 
   return (
     <>
-      <div className="flex flex-col col-span-5">
+      <div className="flex flex-col col-span-8 sm:col-span-5">
         <div className="">
           <Toaster toastOptions={{
             classNames: {
@@ -105,7 +38,9 @@ function MsgContainer() {
         <div className="flex flex-col justify-between relative">
 
           <div className='col-span-5 h-14 bg-zinc-600 fixed top-0 w-full py-3 flex justify-between items-center'>
-            <div className='text-gray-100 pl-4'>{currentContact}</div>
+            <div className='text-gray-100 pl-4'>
+              <div className="flex gap-2"><ArrowLeft onClick={() => setActiveChat(false)} className="block sm:hidden cursor-pointer" />{currentContact}</div>
+            </div>
             <div className='me-4 py-1 px-2 rounded-lg hover:bg-teal-800 cursor-pointer'>:</div>
           </div>
 

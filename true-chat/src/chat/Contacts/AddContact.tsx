@@ -7,8 +7,9 @@ import { useState } from "react"
 interface AddContactInt {
   contacts: string[]
   setContacts: React.Dispatch<React.SetStateAction<string[]>>
+  joinRoom: (room: string) => void
 }
-function AddContact({ contacts, setContacts }: AddContactInt) {
+function AddContact({ contacts, setContacts, joinRoom }: AddContactInt) {
   const [adding, setAdding] = useState(false)
   const [newContact, setNewContact] = useState('')
 
@@ -21,16 +22,19 @@ function AddContact({ contacts, setContacts }: AddContactInt) {
     dispatch(SetNewContacts(NewContactsList))
     setContacts(NewContactsList)
     setNewContact('')
+    joinRoom(newContact)
     setAdding(false)
   }
   return (
     <>
       {!adding &&
-        <div onClick={() => {
-          setAdding(true)
-        }} className="px-1 py-1 m-2 rounded-lg flex items-center justify-start hover:bg-zinc-100 dark:hover:bg-zinc-800 border-zinc-700 cursor-pointer">
-          <div className='flex justify-center items-center w-full'>
-            <div className="text-lg text-zinc-100">+</div>
+        <div className="border-b">
+          <div onClick={() => {
+            setAdding(true)
+          }} className="px-1 py-1 m-2 rounded-lg flex items-center justify-start hover:bg-zinc-100 dark:hover:bg-zinc-800 border-zinc-700 cursor-pointer">
+            <div className='flex justify-center items-center w-full'>
+              <div className="text-lg text-zinc-100">+</div>
+            </div>
           </div>
         </div>
       }
@@ -41,7 +45,7 @@ function AddContact({ contacts, setContacts }: AddContactInt) {
         <div className="px-2 py-3 flex items-center justify-start border-b border-zinc-700 ">
           <div className="flex">
             <div className="text-lg text-zinc-100">
-              <Input value={newContact} onChange={(e) => {
+              <Input value={newContact} autoFocus onChange={(e) => {
                 setNewContact(e.target.value)
               }} className="bg-zinc-700" type="text" />
             </div>

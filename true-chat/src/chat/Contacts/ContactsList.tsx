@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/Hooks/Hooks.ts'
 import { setCurrentContact } from '@/store/mainSlice.tsx'
 import AddContact from './AddContact.tsx'
+import { Link } from 'react-router-dom'
 interface ContactsListProps {
   joinRoom: (room: string) => void
   setActiveChat: React.Dispatch<React.SetStateAction<string | boolean>>
@@ -25,9 +26,9 @@ function ContactsList({ joinRoom, setActiveChat }: ContactsListProps) {
 
         <div className="flex justify-between items-center px-4 h-14 py-2 border-r border-zinc-500 sticky top-0 bg-zinc-600">
           <h1 className="text-zinc-100 font-bold text-xl">True Chat</h1>
-          <button className="bg-teal-200 dark:bg-zinc-800 dark:hover:bg-teal-800 text-black dark:text-zinc-100 px-4 py-2 rounded-md">
+          <Link to={'/setting/profile'} className="bg-teal-200 dark:bg-zinc-600 dark:hover:bg-zinc-500 text-black dark:text-zinc-100 px-3 py-2 rounded-sm">
             <Settings />
-          </button>
+          </Link>
         </div>
 
 

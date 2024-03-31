@@ -4,6 +4,7 @@ import MsgContainer from "./Messages/MsgContainer";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/Hooks/Hooks";
 import { toast } from "sonner";
+import Profile from "../setting/Profile";
 const socket = io("http://localhost:3000");
 
 export default function Chat() {
@@ -28,7 +29,7 @@ export default function Chat() {
   }])
 
   interface messageInterface {
-    message: any;
+    message: string;
     room: string;
     Received: boolean;
     time: string;
@@ -56,12 +57,19 @@ export default function Chat() {
   const handleSend = (e: any) => {
     e.preventDefault()
     socket.emit('Message-Sent', message, currentContact)
+    // const d = new Date();
+    // console.log(d);
+    // d.getTime();
+    // console.log(d);
+    // console.log(d.toLocaleTimeString());
+    // console.log(d.getTime());
+
 
     const theMessage = {
       message: message,
       room: currentContact,
       Received: false,
-      time: '5:52 PM'
+      time: '11:04 AM'
     }
     displayMessage(theMessage)
   }
@@ -130,15 +138,20 @@ export default function Chat() {
   return (
     <div className={`w-full grid grid-cols-8 sm:grid-cols-8 bg-zinc-100 dark:bg-zinc-900`}>
       {window.innerWidth < 640 ?
+        // small Devices
         !activeChat ?
           <ContactsList joinRoom={joinRoom} setActiveChat={setActiveChat} />
           :
           <MsgContainer messages={messages} setActiveChat={setActiveChat} handleSend={handleSend} setMessage={setMessage} message={message} />
+        // small Devices
         :
+        // Big Deveices 
         <>
           <ContactsList joinRoom={joinRoom} setActiveChat={setActiveChat} />
           <MsgContainer messages={messages} setActiveChat={setActiveChat} handleSend={handleSend} setMessage={setMessage} message={message} />
+          {/* <Profile /> */}
         </>
+        // Big Deveices 
 
       }
 

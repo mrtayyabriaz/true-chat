@@ -10,7 +10,12 @@ import { useAppSelector } from "@/Hooks/Hooks"
 import { ArrowLeft } from "lucide-react"
 
 interface MsgContainerProps {
-  messages: object[]
+  messages: {
+    message: string;
+    room: string;
+    Received: boolean;
+    time: string;
+  }[]
   handleSend: React.FormEventHandler<HTMLFormElement>
   setMessage: React.Dispatch<React.SetStateAction<string>>
   message: string
@@ -61,7 +66,7 @@ function MsgContainer({ messages, handleSend, setMessage, message, setActiveChat
                 }} value={message} autoFocus type="text" placeholder="Type message.." className='bg-zinc-200 text-zinc-100 dark:bg-zinc-700 focus-visible:ring-0 ring-0 border-none' />
               </div>
               <Button type="submit"
-                className="col-span-2 ml-2"><ArrowRightIcon /></Button>
+                className="col-span-2 ml-2 dark:hover:bg-emerald-600"><ArrowRightIcon /></Button>
             </div>
           </form>
         </div>

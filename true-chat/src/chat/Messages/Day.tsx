@@ -5,7 +5,12 @@ import Messages from './Messages'
 
 interface dayProps {
   day: string;
-  dayMessages: object[]
+  dayMessages: {
+    message: string;
+    room: string;
+    Received: boolean;
+    time: string;
+  }[]
 }
 
 function Day({ day, dayMessages }: dayProps) {

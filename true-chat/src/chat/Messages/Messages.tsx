@@ -5,7 +5,12 @@ import RightMessage from './RightMessage'
 // import Date from './components/Day'
 
 interface messagesProps {
-  messages?: object[];
+  messages?: {
+    message: string;
+    room: string;
+    Received: boolean;
+    time: string;
+  }[];
 }
 function Messages({ messages }: messagesProps) {
   return (

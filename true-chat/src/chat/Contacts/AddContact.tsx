@@ -23,12 +23,12 @@ function AddContact({ setContacts, joinRoom }: AddContactProps) {
     // type newContactInt = 
     const newContact: {
       contactName: string;
-      ContactMessages: {
+      ContactMessages: [{
         message: string;
         room: string;
         Received: boolean;
         time: string;
-      }[]
+      }]
     } = {
       contactName: contact,
       ContactMessages: [{

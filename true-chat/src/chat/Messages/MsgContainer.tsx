@@ -23,9 +23,10 @@ interface MsgContainerProps {
 }
 function MsgContainer({ messages, handleSend, setMessage, message, setActiveChat }: MsgContainerProps) {
   const currentContact = useAppSelector((state) => state.currentContact)
+  // const contacts = useAppSelector(state => state.contacts)
 
-
-
+  // let contact = contacts.find(contact => contact.contactName === currentContact)
+  // const messages = contact!.ContactMessages;
 
   return (
     <>

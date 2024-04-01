@@ -11,7 +11,8 @@ export default function Chat() {
 
   //==================== set defaults ( START ) =========================== 
   const currentContact = useAppSelector((state) => state.currentContact)
-  const contacts = useAppSelector((state) => state.contacts)
+  const thecontacts = useAppSelector((state) => state.contacts)
+  const [contacts, setContacts] = useState([...thecontacts])
   const [activeChat, setActiveChat] = useState<string | boolean>(false)
   const [message, setMessage] = useState('')
   // const [socketId, setSocketId] = useState('')
@@ -30,11 +31,15 @@ export default function Chat() {
   const [username, setUsername] = useState('d')
   const dispatch = useAppDispatch()
   //==================== set defaults  ( END )  ===========================
+  // useEffect(() => {
+  //   setContacts([...thecontacts])
+  //   console.log('updated');
+
+  // }, [thecontacts])
 
   //====================== username ( START ) =============================
   useEffect(() => {
     if (localStorage.getItem('username')) {
-      // socket.emit('username', localStorage.getItem('username'))
       setUsername(localStorage.getItem('username')!)
       dispatch(setUserName(username))
       joinRoom(username)
@@ -43,7 +48,24 @@ export default function Chat() {
     }
   }, [username])
   //====================== username  ( END )  =============================
+  //==================== Get Time ( START ) ===========================
+  function GetMessageTime(): string {
+    const d = new Date();
+    let hours = d.getHours()
+    let minutes: number | string = d.getMinutes();
+    let AP = 'AM';
 
+    if (hours >= 12) {
+      hours = hours - 12;
+      AP = 'PM';
+    }
+    minutes = minutes == 0 ? "00" : minutes
+    const time = hours + ':' + minutes + ' ' + AP;
+    console.log(time);
+    // console.log(d.toLocaleTimeString());
+    return time
+  }
+  //==================== Get Time  ( END )  ===========================
   //==================== set messages  ( START ) =========================== 
   interface messageInterface {
     message: string;
@@ -52,7 +74,6 @@ export default function Chat() {
     time: string;
   }
   const displayMessage = (message: messageInterface): void => {
-    console.log(message);
     setMessages((preMessages) => [...preMessages, message])
   }
 
@@ -80,19 +101,12 @@ export default function Chat() {
   const handleSend = (e: any) => {
     e.preventDefault()
     socket.emit('Message-Sent', message, currentContact, username)
-    // const d = new Date();
-    // console.log(d);
-    // d.getTime();
-    // console.log(d);
-    // console.log(d.toLocaleTimeString());
-    // console.log(d.getTime());
-
 
     const theMessage = {
       message: message,
       room: currentContact,
       Received: false,
-      time: '11:05 AM'
+      time: GetMessageTime()
     }
     displayMessage(theMessage)
 
@@ -101,7 +115,7 @@ export default function Chat() {
       message: message,
       from: currentContact,
       Received: false,
-      time: '11:04 AM',
+      time: GetMessageTime(),
       to: username,
     }))
 
@@ -133,33 +147,43 @@ export default function Chat() {
 
 
     //======================= Receive ( START ) ============================ 
-    socket.on("Message-Received", (data) => {
+    socket.on("Message-Received", (data: {
+      message: any;
+      room: any;
+      from: any;
+    }) => {
       console.log(data);
 
       //=========== get sender ( START ) =================
 
       let realSender;
 
-      const sender = contacts.filter((contact) => {
+      console.log('contacts:::', contacts);
+      const sender = contacts.find((contact) => {
+        console.log('contact:::', contact, ':::data.form:::', data.from);
+
         if (contact.contactName == data.from) {
-          return data.from
+          return contact
         }
       })
       // if sender found in chat list save message there
-      if (sender[0]) {
-        realSender = sender[0].contactName
+      if (sender) {
+        realSender = sender.contactName
 
       } else {
-
-        //======= create contact ( START ) =========
         // if contact not found add new contact
-        const newContact = {
-          contactName: data.from,
-          ContactMessages: []
-        }
-        dispatch(SaveNewContact(newContact))
-        //======= create contact  ( END )  =========
+        //======= create contact ( START ) =========
 
+        dispatch(SaveNewContact({
+          contactName: data.from,
+          ContactMessages: [{
+            message: 'saved Message',
+            room: 'default',
+            Received: false,
+            time: '2:01 PM',
+          }],
+        }))
+        //======= create contact  ( END )  =========
         realSender = data.from
       }
       //=========== get sender  ( END )  =================

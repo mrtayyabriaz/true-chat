@@ -8,16 +8,18 @@ import { Link } from 'react-router-dom'
 interface ContactsListProps {
   joinRoom: (room: string) => void
   setActiveChat: React.Dispatch<React.SetStateAction<string | boolean>>
+  username: string,
 }
-function ContactsList({ joinRoom, setActiveChat }: ContactsListProps) {
+function ContactsList({ joinRoom, setActiveChat, username }: ContactsListProps) {
   const theContacts = useAppSelector(state => state.contacts)
   const [contacts, setContacts] = useState<({
     contactName: string;
     ContactMessages: ({ message: string; room: string; Received: boolean; time: string; })[]
   })[]>(theContacts)
+
   useEffect(() => {
     setContacts(theContacts)
-  }, [])
+  }, [theContacts])
 
   const dispatch = useAppDispatch()
   return (
@@ -25,7 +27,7 @@ function ContactsList({ joinRoom, setActiveChat }: ContactsListProps) {
       <div className="col-span-8 sm:col-span-3">
 
         <div className="flex justify-between items-center px-4 h-14 py-2 border-r border-zinc-500 sticky top-0 bg-zinc-600">
-          <h1 className="text-zinc-100 font-bold text-xl">True Chat</h1>
+          <h1 className="text-zinc-100 font-bold text-xl">{username}</h1>
           <Link to={'/setting/profile'} className="bg-teal-200 dark:bg-zinc-600 dark:hover:bg-zinc-500 text-black dark:text-zinc-100 px-3 py-2 rounded-sm">
             <Settings />
           </Link>
@@ -34,7 +36,7 @@ function ContactsList({ joinRoom, setActiveChat }: ContactsListProps) {
 
         <div className=''>
           <div className="border-r border-zinc-600 h-[calc(100vh-3.5rem)] max-h-[100vh] overflow-y-scroll">
-            <AddContact contacts={theContacts} setContacts={setContacts} joinRoom={joinRoom} />
+            <AddContact setContacts={setContacts} joinRoom={joinRoom} />
             {contacts.map((contact, index) => {
               return (
                 <div key={index} onClick={() => {

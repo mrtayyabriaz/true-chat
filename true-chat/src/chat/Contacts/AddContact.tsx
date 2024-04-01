@@ -1,30 +1,35 @@
-import { useAppDispatch } from "@/Hooks/Hooks"
+import { useAppDispatch, useAppSelector } from "@/Hooks/Hooks"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { SetNewContacts } from "@/store/mainSlice"
+import { SaveNewContact } from "@/store/mainSlice"
 import { ArrowBigRight } from "lucide-react"
 import { useState } from "react"
+
 interface AddContactProps {
-  contacts: ({
-    contactName: string;
-    ContactMessages: ({ message: string; room: string; Received: boolean; time: string; })[]
-  })[]
   setContacts: React.Dispatch<React.SetStateAction<{ contactName: string; ContactMessages: { message: string; room: string; Received: boolean; time: string; }[]; }[]>>
   joinRoom: (room: string) => void
 }
-function AddContact({ contacts, setContacts, joinRoom }: AddContactProps) {
+
+function AddContact({ setContacts, joinRoom }: AddContactProps) {
   const [adding, setAdding] = useState(false)
   const [contact, setContact] = useState('')
+  const contacts = useAppSelector(state => state.contacts)
 
   const dispatch = useAppDispatch()
 
   const AddNewContact = () => {
-    interface newContactInt {
-      contactName: string;
-      ContactMessages: ({ message: string; room: string; Received: boolean; time: string; })[]
 
-    }
-    const newContact: newContactInt = {
+
+    // type newContactInt = 
+    const newContact: {
+      contactName: string;
+      ContactMessages: {
+        message: string;
+        room: string;
+        Received: boolean;
+        time: string;
+      }[]
+    } = {
       contactName: contact,
       ContactMessages: [{
         message: 'newRightMessage2',
@@ -36,10 +41,9 @@ function AddContact({ contacts, setContacts, joinRoom }: AddContactProps) {
 
 
 
-    // console.log(newContact);
     const NewContactsList = [newContact, ...contacts]
-    // console.log(NewContactsList);
-    dispatch(SetNewContacts(NewContactsList))
+    dispatch(SaveNewContact(newContact))
+
     setContacts(NewContactsList)
     setContact('')
     joinRoom(newContact.contactName)

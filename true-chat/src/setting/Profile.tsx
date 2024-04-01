@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useAppDispatch, useAppSelector } from "@/Hooks/Hooks";
-import { setUsername } from "@/store/mainSlice";
+import { setUserName } from "@/store/mainSlice";
 import { useState } from "react";
 
 type Inputs = {
@@ -29,9 +29,14 @@ function Profile() {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data)
-    dispatch(setUsername(data.username))
+    dispatch(setUserName(data.username))
+    localStorage.setItem("username", data.username)
     // setValue("username", "")
     setSaved(true)
+
+    // join room for new username
+
+
   }
 
   //==================== handle submit  ( END )  ============================
@@ -96,6 +101,7 @@ function Profile() {
                     {errors.username && <h1 className="text-red-400">error</h1>}
                     <input
                       {...register('username')}
+                      autoFocus
                       className={`flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid]:border-2 aria-[invalid]:border-red-400 ${saved ? 'bg-green-900' : ''}`}
                       placeholder="mrtayyabriaz"
                       id=":r4f:-form-item"

@@ -20,20 +20,28 @@ app.get('/', (req, res) => {
 io.on("connection", (socket) => {
   console.log('connected to server:' + socket.id);
 
-  // socket.join('Tayyab Riaz');
-
   socket.on("join", (contacts) => {
     socket.join(contacts)
   })
 
-  socket.on("Message-Sent", (newMessage, room) => {
+  //==================== Message Sent ( START ) ========================
+
+  socket.on("Message-Sent", (newMessage, room, username) => {
+
     if (room === '') {
-      socket.broadcast.emit("Message-Received", { message: newMessage, room: '' })
+      socket.broadcast.emit("Message-Received", {
+        message: newMessage,
+        room: '',
+        from: username,
+      })
     } else {
-      const theMessage = { message: newMessage, room: room }
+
+      const theMessage = { message: newMessage, room: room, from: username, }
       socket.in(room).emit("Message-Received", theMessage)
+
     }
   })
+  //==================== Message Sent  ( END )  ========================
 
   socket.on("JoinRoom", async (room, joined) => {
     socket.join(room)

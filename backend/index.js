@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
 
   //==================== Message Sent ( START ) ========================
 
-  socket.on("Message-Sent", (newMessage, room, username) => {
+  socket.on("Message-Sent", (newMessage, room, username, CompleteMsgTime) => {
 
     if (room === '') {
       socket.broadcast.emit("Message-Received", {
@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
       })
     } else {
 
-      const theMessage = { message: newMessage, room: room, from: username, }
+      const theMessage = { message: newMessage, room: room, from: username, CompleteMsgTime: CompleteMsgTime }
       socket.in(room).emit("Message-Received", theMessage)
 
     }

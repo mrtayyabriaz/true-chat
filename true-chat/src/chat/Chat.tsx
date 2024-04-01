@@ -31,11 +31,11 @@ export default function Chat() {
   const [username, setUsername] = useState('d')
   const dispatch = useAppDispatch()
   //==================== set defaults  ( END )  ===========================
-  // useEffect(() => {
-  //   setContacts([...thecontacts])
-  //   console.log('updated');
+  useEffect(() => {
+    setContacts([...thecontacts])
+    console.log('updated');
 
-  // }, [thecontacts])
+  }, [thecontacts])
 
   //====================== username ( START ) =============================
   useEffect(() => {
@@ -49,21 +49,22 @@ export default function Chat() {
   }, [username])
   //====================== username  ( END )  =============================
   //==================== Get Time ( START ) ===========================
-  function GetMessageTime(): string {
-    const d = new Date();
-    let hours = d.getHours()
-    let minutes: number | string = d.getMinutes();
+  function GetMessageTime(date: Date): { MsgTime: string, CompleteMsgTime: Date } {
+
+    let hours = date.getHours()
+    let minutes: number | string = date.getMinutes();
     let AP = 'AM';
 
     if (hours >= 12) {
       hours = hours - 12;
       AP = 'PM';
     }
-    minutes = minutes == 0 ? "00" : minutes
+    minutes = minutes <= 9 ? '0' + minutes : minutes
+    // minutes = minutes == 0 ? "00" : minutes
     const time = hours + ':' + minutes + ' ' + AP;
     console.log(time);
-    // console.log(d.toLocaleTimeString());
-    return time
+    // console.log(date.toLocaleTimeString());
+    return { MsgTime: time, CompleteMsgTime: date }
   }
   //==================== Get Time  ( END )  ===========================
   //==================== set messages  ( START ) =========================== 
@@ -100,13 +101,15 @@ export default function Chat() {
   //====================== send ( START ) ========================= 
   const handleSend = (e: any) => {
     e.preventDefault()
-    socket.emit('Message-Sent', message, currentContact, username)
+    const { MsgTime, CompleteMsgTime } = GetMessageTime(new Date())
+
+    socket.emit('Message-Sent', message, currentContact, username, CompleteMsgTime)
 
     const theMessage = {
       message: message,
       room: currentContact,
       Received: false,
-      time: GetMessageTime()
+      time: MsgTime,
     }
     displayMessage(theMessage)
 
@@ -115,11 +118,11 @@ export default function Chat() {
       message: message,
       from: currentContact,
       Received: false,
-      time: GetMessageTime(),
+      time: MsgTime,
       to: username,
     }))
 
-
+    setMessage('')
   }
   //====================== send  ( END )  =========================
 
@@ -151,6 +154,7 @@ export default function Chat() {
       message: any;
       room: any;
       from: any;
+      CompleteMsgTime: Date;
     }) => {
       console.log(data);
 
@@ -188,11 +192,17 @@ export default function Chat() {
       }
       //=========== get sender  ( END )  =================
 
+      //======== Get Time ( START ) ========
+      const CompleteMsgTime = new Date(data.CompleteMsgTime);
+      const { MsgTime } = GetMessageTime(CompleteMsgTime)
+      console.log('MsgTime :::: ', MsgTime);
+      //======== Get Time  ( END )  ========
+
       dispatch(SaveMessage({
         from: realSender,
         to: data.room,
         message: data.message,
-        time: '5:13 PM',
+        time: MsgTime,
         Received: true,
       }))
 
@@ -200,7 +210,7 @@ export default function Chat() {
         message: data.message,
         room: data.room,
         Received: true,
-        time: '5:52 PM'
+        time: MsgTime,
       }
       displayMessage(theMessage)
     })

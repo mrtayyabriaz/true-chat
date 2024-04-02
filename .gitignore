@@ -24,4 +24,3 @@ dist-ssr
 *.sw?
 true-chat/node_modules/
 backend/node_modules/
-true-chat/src/store/

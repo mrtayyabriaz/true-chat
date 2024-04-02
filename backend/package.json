@@ -4,8 +4,12 @@
   "description": "",
   "type": "module",
   "main": "index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "Mr Tayyab Riaz",
   "license": "ISC",

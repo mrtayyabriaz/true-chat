@@ -7,7 +7,20 @@ import { toast } from "sonner";
 import { SaveMessage, SaveNewContact, setUserName } from "@/store/mainSlice";
 import config from "@/config/config";
 
-const socket = io(config.domain);
+const URL = process.env.NODE_ENV === "production" ? "https://true-chat.netlify.app" :
+  "http://localhost:3000"
+
+const socket = io(URL, {
+  cert: process.env.NODE_ENV === "production" ? process.env.SSL_CERT : "",
+  key: process.env.NODE_ENV === "production" ? process.env.SSL_KEY : "",
+  path: "/chat",
+  reconnection: true,
+  transports: ["websocket", "polling"],
+  reconnectionAttempts: 5,
+});
+
+
+
 console.log(config.domain);
 
 export default function Chat() {

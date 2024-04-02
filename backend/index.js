@@ -8,6 +8,10 @@ const port = process.env.PORT;
 const server = createServer(app);
 
 const io = new Server(server, {
+  path: '/chat',
+  wssEngine: ['ws', 'wss'],
+  transports: ['websocket', 'polling'],
+  allowE103: true,
   cors: {
     origin: [process.env.ORIGIN]
   }

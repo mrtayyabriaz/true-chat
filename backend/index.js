@@ -13,7 +13,7 @@ const io = new Server(server, {
   transports: ['websocket', 'polling'],
   allowE103: true,
   cors: {
-    origin: [process.env.ORIGIN]
+    origin: "*"
   }
 });
 

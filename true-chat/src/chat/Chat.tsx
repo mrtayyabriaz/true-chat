@@ -11,8 +11,8 @@ const URL = config.node_env === "production" ? "https://true-chat.netlify.app" :
   "http://localhost:3000"
 
 const socket = io(URL, {
-  cert: config.node_env === "production" ? process.env.SSL_CERT : "",
-  key: config.node_env === "production" ? process.env.SSL_KEY : "",
+  cert: config.node_env === "production" ? config.sslC : "",
+  key: config.node_env === "production" ? config.sslK : "",
   path: "/chat",
   reconnection: true,
   transports: ["websocket", "polling"],
@@ -21,7 +21,7 @@ const socket = io(URL, {
 
 
 
-console.log(config.domain);
+console.log(config);
 
 export default function Chat() {
 

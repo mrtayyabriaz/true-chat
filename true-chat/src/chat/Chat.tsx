@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/Hooks/Hooks";
 import { toast } from "sonner";
 import { SaveMessage, SaveNewContact, setUserName } from "@/store/mainSlice";
-const socket = io("http://localhost:3000");
+import config from "@/config/config";
+
+const socket = io(config.serverPort || "http://localhost:3000");
 
 export default function Chat() {
 

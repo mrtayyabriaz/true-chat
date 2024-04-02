@@ -1,4 +1,4 @@
-import Chat from '@/chat/Chat'
+// import Chat from '@/chat/Chat'
 import { Outlet } from 'react-router-dom'
 
 const ProfileLayout = () => {

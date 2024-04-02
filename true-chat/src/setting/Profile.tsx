@@ -21,7 +21,7 @@ function Profile() {
 
   //==================== handle submit ( START ) ============================
 
-  const { register, handleSubmit, setValue, formState: { errors }, } = useForm<Inputs>({
+  const { register, handleSubmit, formState: { errors }, } = useForm<Inputs>({
     defaultValues: {
       username: username,
     }

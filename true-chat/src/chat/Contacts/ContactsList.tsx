@@ -35,7 +35,7 @@ function ContactsList({ joinRoom, setActiveChat, username }: ContactsListProps) 
 
 
         <div className=''>
-          <div className="border-r border-zinc-600 h-[calc(100vh-3.5rem)] max-h-[100vh] overflow-y-scroll">
+          <div className="border-r border-zinc-600 h-[calc(100dvh-3.5rem)] max-h-[100vh] overflow-y-scroll">
             <AddContact setContacts={setContacts} joinRoom={joinRoom} />
             {contacts.map((contact, index) => {
               return (

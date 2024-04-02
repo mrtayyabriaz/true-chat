@@ -51,7 +51,7 @@ function MsgContainer({ messages, handleSend, setMessage, message, setActiveChat
           </div>
 
           <div className="pt-14">
-            <div className='overflow-y-scroll pt-2 h-[calc(100vh-3.5rem)]'>
+            <div className='overflow-y-scroll pt-2 h-[calc(100dvh-3.5rem)]'>
 
               <Day day='YESTERDAY' dayMessages={messages} />
 

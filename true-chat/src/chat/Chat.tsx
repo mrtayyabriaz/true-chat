@@ -7,7 +7,8 @@ import { toast } from "sonner";
 import { SaveMessage, SaveNewContact, setUserName } from "@/store/mainSlice";
 import config from "@/config/config";
 
-const socket = io(config.domain || "http://localhost:3000");
+const socket = io(config.domain);
+console.log(config.domain);
 
 export default function Chat() {
 

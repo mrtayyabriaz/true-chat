@@ -14,10 +14,10 @@ const io = new Server(server, {
 });
 
 app.get('/', (req, res) => {
-  const origins = process.env.ORIGINS;
-  console.log(origins);
-  const r = 'Hi! ORIGINS:::' + JSON.parse(JSON.stringify(origins)) + 'Ports::: ' + process.env.PORT;
-  res.send('r')
+  const origin = process.env.ORIGIN;
+  console.log(origin);
+  const r = 'Hi! ORIGINS::: ' + origin + '  -  Ports::: ' + process.env.PORT;
+  res.send(r)
 })
 
 

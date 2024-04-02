@@ -1,5 +1,5 @@
-const config: { serverPort: string } = {
-  serverPort: import.meta.env.VITE_SERVER_PORT
+const config: { domain: string } = {
+  domain: import.meta.env.VITE_DOMAIN
 }
 
 export default config

@@ -3,12 +3,12 @@ import { createServer } from "http"
 import { Server } from "socket.io"
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: [process.env.ORIGINS],
   }
 });
 

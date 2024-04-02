@@ -1,6 +1,7 @@
 import express from "express"
 import { createServer } from "http"
 import { Server } from "socket.io"
+import 'dotenv/config'
 
 const app = express();
 const port = process.env.PORT;
@@ -8,12 +9,15 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [process.env.ORIGINS],
+    origin: process.env.ORIGINS,
   }
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  const origins = process.env.ORIGINS;
+  console.log(origins);
+  const r = 'Hi! ORIGINS:::' + JSON.parse(JSON.stringify(origins)) + 'Ports::: ' + process.env.PORT;
+  res.send(r)
 })
 
 

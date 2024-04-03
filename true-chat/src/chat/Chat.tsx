@@ -9,7 +9,9 @@ import config from "@/config/config";
 
 // const URL = config.node_env === "production" ? "https://true-chat.netlify.app" :
 //   "http://localhost:3000"
-
+const user = {
+  _id: 'someid'
+}
 const socket = io(config.domain, {
   cert: config.node_env === "production" ? config.sslC : "",
   key: config.node_env === "production" ? config.sslK : "",
@@ -17,6 +19,7 @@ const socket = io(config.domain, {
   reconnection: true,
   transports: ["websocket", "polling"],
   reconnectionAttempts: 5,
+  query: { userID: user._id },
 });
 
 
@@ -148,20 +151,25 @@ export default function Chat() {
     console.log(message);
 
     //==================== connect ( START ) =========================== 
-    socket.on("connect", () => {
-      console.log('id:: ', socket.id); // x8WIv7-mJelg7on_ALbx
+    try {
+      socket.on("connect", () => {
+        console.log('id:: ', socket.id); // x8WIv7-mJelg7on_ALbx
 
 
-      socket.emit('join', contacts)
+        socket.emit('join', contacts)
 
-      toast("Network Connected", {
-        description: "Online",
-        action: {
-          label: "Dismiss",
-          onClick: () => console.log("Undo"),
-        },
-      })
-    });
+        toast("Network Connected", {
+          description: "Online",
+          action: {
+            label: "Dismiss",
+            onClick: () => console.log("Undo"),
+          },
+        })
+      });
+    } catch (error) {
+      console.log("socket connection errror::: ", error);
+
+    }
     //==================== connect  ( END )  ===========================
 
 

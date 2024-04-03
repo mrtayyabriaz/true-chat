@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "backend/index.js",
   "engines": {
     "node": "18.x"
   },
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "npm install && npm install --prefix true-chat && npm run build --prefix true-chat"
   },
   "author": "Mr Tayyab Riaz",
   "license": "ISC",

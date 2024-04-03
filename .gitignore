@@ -30,5 +30,4 @@ backend/.env
 # Local Netlify folder
 .netlify
 true-chat/.env
-backend/functions/index.js
-backend/netlify.toml
+node_modules/

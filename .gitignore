@@ -24,10 +24,8 @@ dist-ssr
 *.sw?
 true-chat/node_modules/
 backend/node_modules/
-true-chat/src/.env
-backend/.env
 
 # Local Netlify folder
-.netlify
 true-chat/.env
 node_modules/
+.env

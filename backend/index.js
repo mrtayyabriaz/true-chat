@@ -22,9 +22,9 @@ const io = new Server(server, {
 });
 
 app.get('/backend', (req, res) => {
-  const origin = process.env.ORIGIN;
-  console.log(origin);
-  const r = 'Hi! ORIGINS::: ' + origin + '  -  Ports::: ' + process.env.PORT;
+  const domain = process.env.DOMAIN;
+  console.log(domain);
+  const r = 'Hi! DOMAIN::: ' + domain + '  -  Ports::: ' + process.env.PORT;
   res.send(r)
 })
 
